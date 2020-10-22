@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Header from "./Header";
 import Content from "./Content";
 
@@ -10,16 +11,25 @@ const Top50 = () => {
     fetch("/top50")
       .then((res) => res.json())
       .then((json) => {
+        console.log(json);
         setAllSongs(json.data);
       });
   }, []);
 
-  console.log("Top50.js: allSongs: ", allSongs);
+  // console.log("Top50.js: allSongs: ", allSongs);
 
   return (
     <>
       <Header pageTitle="Top 50 Songs Streamed on Spotify" />
-      <Content>Need to render all of the songs here...</Content>
+      <Content>
+        {allSongs.map((song) => {
+          return (
+            <li>
+              <Link to={`/music/song/${song.rank}`}>{song.title}</Link>
+            </li>
+          );
+        })}
+      </Content>
     </>
   );
 };
